@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', ['uses' => 'Home@index', 'as' => 'home']);
+Route::get('/', 'Home@index')->name('home1');
+Route::resource('posts', 'postsController');
+Route::post('/contact', 'ContactController@store')->name('contact.store');
 
-Route::get('/posts', ['uses' => 'Posts@index','as'=> 'posts']);
 
-Route::post('/contact', ['uses' => 'ContactController@postInfos', 'as' => 'contact']);
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');

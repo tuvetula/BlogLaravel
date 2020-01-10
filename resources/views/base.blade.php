@@ -11,12 +11,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <!-- Styles -->
-    <style>
-    </style>
+    @yield('css')
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href={{'/'}}>Mon blog</a>
+    <a class="navbar-brand" href={{ route ('home1') }}>Mon blog</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,13 +23,47 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href={{'/'}}>Home</a>
+                <a class="nav-link" href={{ route ('home1') }}>{{ __('Home') }}</a>
             </li>
+            @auth()
             <li class="nav-item">
-                <a class="nav-link" href={{'posts'}}>Posts</a>
+                <a class="nav-link" href={{ route('posts.index') }}>Posts</a>
             </li>
+                @endauth
         </ul>
+        <div class="flex-center position-ref full-height">
+            @if (Route::has('login'))
+                <div class="top-right links">
+                    @auth
+                        <ul class="list-unstyled">
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} {{ Auth::user()->first_name }} <span class="caret"></span>
+                                </a>
 
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    @else
+                        <a href="{{ route('login') }}">{{ __('Login') }}</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                        @endif
+                    @endauth
+                </div>
+            @endif
+        </div>
     </div>
 </nav>
 @yield('body')

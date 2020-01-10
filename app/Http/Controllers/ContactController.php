@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
 use App\Mail\Contact;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
-    public function postInfos(Request $request)
+    public function store(ContactRequest $request)
     {
-        Mail::to('test@test.com')
+        //Enregistrement en base de données
+        $contact = new \App\Contact;
+        $contact->name = $request->name;
+        $contact->first_name = $request->first_name;
+        $contact->email = $request->email;
+        $contact->message = $request->message;
+        $contact->save();
+
+        //Envoi mail
+        Mail::to('admin@blog.fr')
             ->send(new Contact($request->except('_token')));
         return view('Pages/contactConfirmation');
     }
