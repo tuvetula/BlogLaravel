@@ -11,11 +11,39 @@
 |
 */
 
-Route::get('/', 'Home@index')->name('home1');
-Route::resource('posts', 'postsController');
+use Illuminate\Support\Facades\Auth;
+
+Route::get('/', 'HomeController@index')->name('home1');
+Route::resource('posts', 'PostsController');
+Route::resource('comment', 'CommentsController');
+Route::get('/account/{user}' , 'AccountController@show')->name('account.show');
+Route::get('/account/{user}/edit' , 'AccountController@edit')->name('account.edit');
+Route::post('/account/{user}' , 'AccountController@update')->name('account.update');
 Route::post('/contact', 'ContactController@store')->name('contact.store');
+Route::prefix('/backend')->name('backend.')->namespace('Admin')->group(function(){
+    Route::namespace('Auth')->group(function(){
+        //Login Routes
+        Route::get('/login','LoginController@showLoginForm')->name('login');
+        Route::post('/login','LoginController@login');
+        Route::post('/logout','LoginController@logout')->name('logout');
 
+        //Forgot Password Routes
+        Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 
+        //Reset Password Routes
+        Route::get('/password/reset/{token}','ResetPasswordController@showResetForm')->name('password.reset');
+        Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
+
+        //Register
+        Route::get('/register' , 'AdminRegisterController@showRegistrationForm')->name('register');
+        Route::post('/register' , 'AdminRegisterController@register');
+
+    });
+    \Illuminate\Support\Facades\Route::middleware('isAdmin')->group(function(){
+        Route::get('/home','AdminHomeController@index')->name('home');
+        Route::resource('admins', 'AdminsController');
+    });
+});
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

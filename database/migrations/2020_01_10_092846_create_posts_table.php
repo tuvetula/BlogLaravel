@@ -16,9 +16,13 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title',80);
-            $table->string('author',80);
             $table->text('post');
-            $table->integer('userId');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('restrict')
+                ->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

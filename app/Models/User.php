@@ -1,14 +1,21 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Traits\MorphManyComments;
+use App\Traits\MorphManyPosts;
+use App\Traits\MorphToManyTags;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use MorphToManyTags;
+    use MorphManyPosts;
+    use MorphManyComments;
 
     /**
      * The attributes that are mass assignable.
@@ -36,4 +43,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Récupérer tous les commentaires d'un user
+     * @return HasManyThrough
+     */
+    public function comments() : HasManyThrough
+    {
+       return $this->hasManyThrough(
+           'App\Models\Comment',
+           'App\Models\Post',
+           'user_id',
+           'post_id');
+    }
 }

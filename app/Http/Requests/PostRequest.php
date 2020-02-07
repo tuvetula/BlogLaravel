@@ -25,7 +25,6 @@ class PostRequest extends FormRequest
     {
         return [
             'title' => 'bail|required|between:2,80',
-            'author' => 'bail|required|between:2,50|alpha',
             'post' => 'bail|required|max:3000',
         ];
     }

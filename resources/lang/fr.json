@@ -1,4 +1,6 @@
 {
+    "Add a new Administrator": "Ajouter un nouvel administrateur",
+    "Administrator": "Administrateur",
     "Confirm Password": "Confirmation mot de passe",
     "Contact me": "Contactez-moi",
     "Delete": "Supprimer",
@@ -8,13 +10,17 @@
     "Forgot Your Password?": "Mot de passe oublié?",
     "Home": "Accueil",
     "Login": "Se connecter",
+    "Logout": "Se déconnecter",
     "Message": "Message",
     "Modify": "Modifier",
+    "My account": "Mon compte",
     "Name": "Nom",
     "New": "Nouveau",
     "Password": "Mot de passe",
     "Register": "S'inscrire",
     "Remember Me": "Se souvenir de moi",
+    "Save": "Sauvegarder",
+    "See": "Voir",
     "Send": "Envoyer",
     "the developer you need!": "le développeur qu'il vous faut!"
 }

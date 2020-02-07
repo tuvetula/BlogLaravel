@@ -11,7 +11,7 @@ class ContactController extends Controller
     public function store(ContactRequest $request)
     {
         //Enregistrement en base de données
-        $contact = new \App\Contact;
+        $contact = new \App\Models\Contact;
         $contact->name = $request->name;
         $contact->first_name = $request->first_name;
         $contact->email = $request->email;

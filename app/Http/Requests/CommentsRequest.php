@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CommentsRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +14,7 @@ class CommentsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,7 @@ class CommentsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comment' => 'bail|required|between:3,3000'
         ];
     }
 }

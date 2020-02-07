@@ -21,7 +21,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
+
+    /**
+     * The path to the "home" route for your application.
+     *
+     * @var string
+     */
+    public const ADMINHOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -31,7 +38,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
         parent::boot();
     }
 

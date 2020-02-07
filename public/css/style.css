@@ -1,0 +1,11 @@
+#LogoLine{
+    display: flex;
+    justify-content: center;
+}
+.logo{
+    max-width: 50px;
+    margin: auto;
+    vertical-align: center;
+}
+
+

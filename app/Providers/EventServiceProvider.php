@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Login;
+use App\Listeners\Login as UserLogin;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,5 +32,15 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
 
         //
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return true;
     }
 }
