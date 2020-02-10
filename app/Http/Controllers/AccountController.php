@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\Post;
 use App\Models\User;
-use App\UserModel;
 use Egulias\EmailValidator\Warning\Comment;
 use http\Env\Response;
 use Illuminate\Contracts\View\Factory;

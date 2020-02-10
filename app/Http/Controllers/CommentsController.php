@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TagRequest;
 use App\Models\Comment;
 use App\Http\Requests\CommentsRequest;
 use App\Events\NewComment;
+use App\Models\Tag;
+use App\Traits\TagsRequest;
 use App\Utils\CustomAuth;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Foundation\Auth\User;
@@ -38,11 +41,11 @@ class commentsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CommentsRequest $request
-     * @return Response
+     * @param TagRequest $tagRequest
+     * @return RedirectResponse
      */
-    public function store(CommentsRequest $request)
+    public function store(CommentsRequest $request , TagRequest $tagRequest)
     {
-
         $user_id = CustomAuth::id();
         $comment = new Comment;
         $comment->comment = $request->comment;
@@ -51,9 +54,10 @@ class commentsController extends Controller
         $comment->commentable_type = CustomAuth::getClass();
         $comment->commentable_id = $user_id;
         $comment->save();
+        //Gestion Tags
+        $comment->tagsAttach($tagRequest);
 
         event(new NewComment($comment));
-
 
         return redirect()->route('posts.show' , $request->post_id)
             ->with('info','Votre commentaire a été ajouté avec succès.');
@@ -78,7 +82,8 @@ class commentsController extends Controller
      */
     public function edit(comment $comment)
     {
-        return view('Pages/commentEdit' , compact('comment'));
+        $tags = Tag::all();
+        return view('Pages/commentEdit' , compact('comment' , 'tags'));
     }
 
     /**
@@ -86,12 +91,16 @@ class commentsController extends Controller
      *
      * @param CommentsRequest $request
      * @param comment $comment
+     * @param TagRequest $tagRequest
      * @return RedirectResponse
      */
-    public function update(CommentsRequest $request , comment $comment)
+    public function update(CommentsRequest $request , comment $comment , TagRequest $tagRequest)
     {
         $comment->comment = $request->comment;
         $comment->update();
+        //Gestion Tags
+        $comment->tagsAttach($tagRequest);
+        $comment->tagsDetach($tagRequest);
         return redirect()->route('posts.show' , $comment->post_id);
 
     }
@@ -100,11 +109,14 @@ class commentsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
         $comment = comment::find($id);
+        foreach ($comment->tags as $tag){
+            $comment->tagsDetachByTagId($tag->id);
+        }
         $comment->delete();
         return back()->with('info', 'Le commentaire a bien été supprimé');
     }

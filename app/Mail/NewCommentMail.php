@@ -2,10 +2,11 @@
 
 namespace App\Mail;
 
+use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use phpDocumentor\Reflection\Types\Object_;
 
 class NewCommentMail extends Mailable
 {
@@ -17,7 +18,7 @@ class NewCommentMail extends Mailable
     protected $post;
 
 
-    public function __construct(Object $comment ,Object $post)
+    public function __construct(Comment $comment ,Post $post)
     {
         $this->comment = $comment;
         $this->post = $post;
@@ -37,7 +38,7 @@ class NewCommentMail extends Mailable
                 'user_email' => $this->comment->commentable->email,
                 'user_name' => $this->comment->commentable->name,
                 'user_first_name' => $this->comment->commentable->first_name,
-                'comment' => $this->comment,
+                'comment' => $this->comment->comment,
                 'post_title' => $this->post->title,
                 'post_content' => $this->post->post
 

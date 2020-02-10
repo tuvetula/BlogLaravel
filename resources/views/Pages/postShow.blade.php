@@ -32,27 +32,26 @@
             <div class="card-footer py-3">
                 <div class="row">
                     <div class="col-md-9">
-            @foreach($tags as $tag)
-                <span class="border border-primary rounded-pill p-2 bg-primary text-light align-middle">{{ $tag->name }}</span>
-                @endforeach
+                        @foreach($tags as $tag)
+                            <span class="border border-primary rounded-pill p-2 bg-primary text-light align-middle">{{ $tag->name }}</span>
+                        @endforeach
                     </div>
-                @if($session_id == $post->user_id && $post->postable_type == $session_model)
-                    <div class="col-md-3">
-                        <div class="row float-right mr-1">
-                            <a href="{{ route('posts.edit' , $post->id) }}">
-                                <button class="btn btn-sm btn-warning ml-2">{{ __('Edit') }}</button></a>
-                            <form action="{{route('posts.destroy' , $post->id)}}" method="POST">
-                                @csrf
-                                @method('DELETE')
+                    @if($session_id == $post->user_id && $post->postable_type == $session_model)
+                        <div class="col-md-3">
+                            <div class="row float-right mr-1">
+                                <a class="btn btn-sm btn-warning ml-2" href="{{ route('posts.edit' , $post->id) }}">{{ __('Edit') }}</a>
+                                <form action="{{route('posts.destroy' , $post->id)}}" method="POST" onsubmit="confirm('Êtes-vous sûr de vouloir supprimer ce post?')">
+                                    @csrf
+                                    @method('DELETE')
                                 <button class="btn btn-sm btn-danger ml-2" type="submit">{{ __('Delete') }}</button>
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
                     @endif
                 </div>
             </div>
         </div>
-            <div class="card text-center my-3">
+            <section class="card text-center my-3">
             <div class="card-header">
                 <h4 class="font-weight-bold">Commentaires</h4>
             </div>
@@ -63,27 +62,32 @@
                             <p class="text-left font-weight-bold">@if($comment->commentable_type == 'App\Models\Admin') <span class="font-italic">{{ __('Administrator') }}</span> @endif{{ $comment->commentable->first_name }}, le {{ date('d-m-Y',strtotime($comment->updated_at)) }} à {{ date( 'H:i',strtotime($comment->updated_at)) }}</p>
                         </div>
                         <div class="row">
-                            <div class="col-lg-10 px-0">
+                            <div class="col-md-9 px-0">
                                 <p class="text-left">{{$comment->comment}}</p>
                             </div>
-                            <div class="col-lg-2">
-                                <div class="row float-right">
-                            @if($session_id == $comment->commentable->id && $comment->commentable_type == $session_model)
-                                <a class="btn btn-sm btn-warning mx-2" href="{{ route('comment.edit' , $comment->id) }}">{{ __('Edit') }}</a>
+                            <div class="col-md-3 px-0">
+                                <div class="row float-right mr-1">
+                                @if($session_id == $comment->commentable->id && $comment->commentable_type == $session_model)
+                                    <a class="btn btn-sm btn-warning ml-2" href="{{ route('comment.edit' , $comment->id) }}">{{ __('Edit') }}</a>
                                 @endif
                                 @if($session_id == $comment->commentable->id && $comment->commentable_type == $session_model || $session_model == 'App\Models\Admin')
-                                <form action="{{route('comment.destroy' , $comment->id)}}" method="POST" class="justify-content-end">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger" type="submit">{{ __('Delete') }}</button>
-                                </form>
-                        @endif
+                                    <form action="{{route('comment.destroy' , $comment->id)}}" method="POST" class="justify-content-end" onsubmit="confirm('Êtes-vous sûr de vouloir supprimer votre commentaire?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger ml-2" type="submit">{{ __('Delete') }}</button>
+                                    </form>
+                                @endif
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            @foreach($comment->tags as $tag)
+                                <span class="border border-primary rounded-pill p-2 bg-primary text-light align-middle mr-1">{{ $tag->name }}</span>
+                            @endforeach
+                        </div>
                     </div>
                 @endforeach
-                <form class="mt-5" action="{{ route('comment.store', $post->id) }}" method="POST">
+                <form class="bg-light p-3" action="{{ route('comment.store', $post->id) }}" method="POST">
                     @csrf
                     <input type="hidden" value="{{$post->id}}" name="post_id">
                     <div class="form-group my-3">
@@ -92,9 +96,36 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="form-group text-left">
+                        <label for="tag" class="font-weight-bold">Tag</label>
+                        <div class="container row">
+                            <input list=listTagsChoices type="text" class="form-control col-md-3" id="tag" placeholder="Saisir un tag">
+                            @if(!empty($tags))
+                                <datalist id="listTagsChoices">
+                                    @foreach($tagsChoice as $tag)
+                                        <option value="{{ $tag->name }}"></option>
+                                    @endforeach
+                                </datalist>
+                            @endif
+                            <div class="col-sm-1 col-md-2">
+                            <button type="button" id="buttonAddTags" class="btn btn-primary">Ajouter</button>
+                            </div>
+                        </div>
+                        <div class="container py-3">
+                            <div id="listTags" class="row px-3">
+
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="tags" id="hiddenTags">
+                    <input type="hidden" name="tagsToDelete" id="hiddenTagsToDelete">
                     <button class="btn btn-primary" type="submit">Ajouter un commentaire</button>
                 </form>
             </div>
-        </div>
+        </section>
     </div>
     @endsection
+
+@section('js')
+    <script src="{{ asset('js/tag.js') }}"></script>
+@endsection

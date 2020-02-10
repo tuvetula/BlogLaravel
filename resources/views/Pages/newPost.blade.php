@@ -44,7 +44,10 @@
                         @endif
                         <button type="button" id="buttonAddTags" class="btn btn-primary col-md-1">Ajouter</button>
                     </div>
-                <div id="listTags" class="container row p-3"></div>
+                <div class="container">
+                <div id="listTags" class="row p-3"></div>
+
+                </div>
             </div>
             <input type="hidden" name="tags" id="hiddenTags">
             <input type="hidden" name="tagsToDelete" id="hiddenTagsToDelete">

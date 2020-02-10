@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Post;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -35,13 +36,13 @@ class PostsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Factory|View
      */
     public function create()
     {
         $author = CustomAuth::user()->first_name;
         $tags = Tag::all();
-        return view(    'Pages/newPost', compact('author' , 'tags'));
+        return view('Pages/newPost', compact('author' , 'tags'));
     }
 
     /**
@@ -63,20 +64,7 @@ class PostsController extends Controller
         $post->postable_id = CustomAuth::id();
         $post->save();
         //Gestion Tags
-        if(!empty($tagRequest->tags)){
-            $tags = explode(',', $tagRequest->tags);
-            foreach ($tags as $tagValue){
-                $tag = new Tag;
-                $tag->name = $tagValue;
-                $tagExistInBdd = Tag::where('name' , '=' , $tagValue)->get();
-                if($tagExistInBdd->count() == 0){
-                    $post->tags()->save($tag);
-                }else{
-                    $post->tags()->attach($tagExistInBdd->first()->id);
-                }
-            }
-        }
-
+        $post->tagsAttach($tagRequest);
         return redirect()->route('posts.index')
             ->with('info','Votre post a été ajouté avec succès !');
     }
@@ -93,7 +81,8 @@ class PostsController extends Controller
         $session_model = CustomAuth::getClass();
         $comments = $post->comments;
         $tags = $post->tags;
-        return view('Pages/postShow', compact('post','comments', 'session_id' , 'session_model' , 'tags'));
+        $tagsChoice = Tag::all();
+        return view('Pages/postShow', compact('post','comments', 'session_id' , 'session_model' , 'tags' , 'tagsChoice'));
     }
 
     /**
@@ -121,18 +110,10 @@ class PostsController extends Controller
         $post->title = $request->title;
         $post->post = $request->post;
         $post->update();
-        //Gestion Tags
-        $tags = explode(',', $tagRequest->tags);
-        foreach ($tags as $tagValue) {
-            $tag = new Tag;
-            $tag->name = $tagValue;
-            $tagExistInBdd = Tag::where('name', '=', $tagValue)->get();
-            if ($tagExistInBdd->count() == 0) {
-                $post->tags()->save($tag);
-            } else {
-                $post->tags()->attach($tagExistInBdd->first()->id);
-            }
-        }
+        //On ajoute les tags Tags
+        $post->tagsAttach($tagRequest);
+        //On efface les relations tags à supprimer
+        $post->tagsDetach($tagRequest);
         return redirect()->route('posts.index')->with('info','Le post a bien été modifié dans la base de données');
     }
 
@@ -140,14 +121,29 @@ class PostsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return RedirectResponse|Redirector
      */
     public function destroy($id)
     {
         //Soft Delete
         $post = Post::find($id);
+        //On supprime tous les commentaires liés au post
+        foreach ($post->comments as $comment)
+        {
+            foreach ($comment->tags as $tag){
+                $comment->tagsDetachByTagId($tag->id);
+            }
+            $comment->delete();
+        }
+        //On supprime le post
         $post->delete();
+        //On supprimer les realations avec les tags du post
+        foreach ($post->tags as $tag){
+            $post->tagsDetachByTagId($tag->id);
+        }
+        //On supprimer les realations avec les tags du commentaire lié au post
+
         //Redirection
-        return back()->with('info','Le post a bien été supprimé dans la base de données');
+        return redirect(route('posts.index'))->with('info','Le post a bien été supprimé dans la base de données');
     }
 }
