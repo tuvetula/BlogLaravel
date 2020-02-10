@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
+    public function edit()
+    {
+        return view('Pages.contact.contactEdit');
+    }
+
     public function store(ContactRequest $request)
     {
         //Enregistrement en base de données
@@ -21,6 +26,6 @@ class ContactController extends Controller
         //Envoi mail
         Mail::to('admin@blog.fr')
             ->send(new Contact($request->except('_token')));
-        return view('Pages/contactConfirmation');
+        return view('Pages.contact.contactConfirmation');
     }
 }

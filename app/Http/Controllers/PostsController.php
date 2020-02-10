@@ -30,7 +30,7 @@ class PostsController extends Controller
         $session_id = CustomAuth::id();
         $session_model = CustomAuth::getClass();
         $posts = Post::orderBy('id','desc')->paginate(5);
-        return view('Pages/postsIndex', compact(['posts','session_id','session_model']));
+        return view('Pages/posts/postsIndex', compact(['posts','session_id','session_model']));
     }
 
     /**
@@ -41,8 +41,8 @@ class PostsController extends Controller
     public function create()
     {
         $author = CustomAuth::user()->first_name;
-        $tags = Tag::all();
-        return view('Pages/newPost', compact('author' , 'tags'));
+        $tagsChoice = Tag::orderBy('name')->get();
+        return view('Pages/posts/postNew', compact('author' , 'tagsChoice'));
     }
 
     /**
@@ -79,22 +79,20 @@ class PostsController extends Controller
     {
         $session_id = CustomAuth::id();
         $session_model = CustomAuth::getClass();
-        $comments = $post->comments;
-        $tags = $post->tags;
-        $tagsChoice = Tag::all();
-        return view('Pages/postShow', compact('post','comments', 'session_id' , 'session_model' , 'tags' , 'tagsChoice'));
+        $tagsChoice = Tag::orderBy('name')->get();
+        return view('Pages/posts/postShow', compact('post', 'session_id' , 'session_model' , 'tagsChoice'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param Post $post
-     * @return Response
+     * @return Factory|View
      */
     public function edit(Post $post)
     {
-        $tags = Tag::orderBy('name')->get();
-        return view('Pages/postEdit', compact('post' , 'tags'));
+        $tagsChoice = Tag::orderBy('name')->get();
+        return view('Pages/posts/postEdit', compact('post' , 'tagsChoice'));
     }
 
     /**

@@ -7,13 +7,11 @@ use App\Models\Comment;
 use App\Http\Requests\CommentsRequest;
 use App\Events\NewComment;
 use App\Models\Tag;
-use App\Traits\TagsRequest;
 use App\Utils\CustomAuth;
-use Facade\FlareClient\Http\Response;
-use Illuminate\Foundation\Auth\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class commentsController extends Controller
 {
@@ -66,8 +64,8 @@ class commentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return void
      */
     public function show($id)
     {
@@ -78,12 +76,12 @@ class commentsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param comment $comment
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function edit(comment $comment)
     {
-        $tags = Tag::all();
-        return view('Pages/commentEdit' , compact('comment' , 'tags'));
+        $tagsChoice = Tag::orderBy('name')->get();
+        return view('Pages/comments/commentEdit' , compact('comment' , 'tagsChoice'));
     }
 
     /**

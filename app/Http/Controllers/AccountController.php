@@ -22,9 +22,9 @@ class AccountController extends Controller
      */
     public function show(User $user)
     {
-        $posts = $user->posts->sortByDesc('created_at');
+        $posts = $user->userPosts->sortByDesc('created_at');
         if($user->id == Auth::user()->id){
-            return view('Pages/accountShow' , compact('user' , 'posts'));
+            return view('Pages/account/accountShow' , compact('user' , 'posts'));
         }
     }
 
@@ -34,7 +34,7 @@ class AccountController extends Controller
      */
     public function edit(User $user)
     {
-        return view('Pages/accountEdit', compact('user'));
+        return view('Pages/account/accountEdit', compact('user'));
     }
 
     /**

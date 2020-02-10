@@ -11,7 +11,7 @@ trait MorphManyPosts
      * Récupérer tous les posts d'un admin ou d'un user
      * @return MorphMany
      */
-    public function posts()
+    public function userPosts()
     {
         return $this->morphMany(Post::class , 'postable');
     }

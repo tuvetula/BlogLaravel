@@ -14,6 +14,7 @@
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'HomeController@index')->name('home1');
+Route::get('/contact' , 'ContactController@edit')->name('contact.edit');
 Route::resource('posts', 'PostsController');
 Route::resource('comment', 'CommentsController');
 Route::get('/account/{user}' , 'AccountController@show')->name('account.show');
@@ -43,6 +44,8 @@ Route::prefix('/backend')->name('backend.')->namespace('Admin')->group(function(
     \Illuminate\Support\Facades\Route::middleware('isAdmin')->group(function(){
         Route::get('/home','AdminHomeController@index')->name('home');
         Route::resource('admins', 'AdminsController');
+        Route::resource('users', 'UsersController');
+
     });
 });
 Auth::routes();

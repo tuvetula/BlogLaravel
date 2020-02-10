@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
-class AdminsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,14 +18,14 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        $admins = Admin::orderBy('name')->paginate(10);
-        return view('admin/adminsIndex' , compact('admins'));
+        $users = User::orderBy('name')->paginate(10);
+        return view('admin/users/usersIndex' , compact('users'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return void
+     * @return Response
      */
     public function create()
     {
@@ -51,7 +51,9 @@ class AdminsController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+
+        return view('admin.users.usersShow' , compact('user'));
     }
 
     /**
@@ -85,8 +87,7 @@ class AdminsController extends Controller
      */
     public function destroy($id)
     {
-        $admin = Admin::find($id);
-        $admin->delete();
-        return redirect()->route('backend.admins.index');
+        $user = User::find($id);
+        $user->delete();
     }
 }

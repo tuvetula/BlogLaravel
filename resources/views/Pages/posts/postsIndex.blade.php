@@ -51,7 +51,7 @@
                                     <a class="btn btn-sm btn-warning ml-2" href="{{ route('posts.edit' , $post->id) }}">{{ __('Edit') }}</a>
                                 @endif
                                 @if((isset($session_id) && $session_id == $post->postable->id && isset($session_model) && $session_model == $post->postable_type) || isset($session_model) && $session_model == 'App\Models\Admin')
-                                    <form action="{{route('posts.destroy' , $post->id)}}" method="POST" onsubmit="confirm('Êtes-vous sûr de vouloir supprimer ce post?')">
+                                    <form action="{{route('posts.destroy' , $post->id)}}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce post?')">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger ml-2" type="submit">{{ __('Delete') }}</button>

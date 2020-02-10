@@ -47,7 +47,7 @@ Les Administrateurs
                         <a class="btn btn-sm btn-warning" href="{{ route('backend.admins.edit' , $admin->id) }}">{{ __('Edit') }}</a>
                     </div>
                     <div class="mx-2">
-                        <form action="{{route('backend.admins.destroy' , $admin->id)}}" method="POST">
+                        <form action="{{route('backend.admins.destroy' , $admin->id)}}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet administrateur?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger" type="submit">{{ __('Delete') }}</button>

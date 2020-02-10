@@ -13,15 +13,15 @@ buttonAddTags.addEventListener('click' , function(e){
         tagsInputHidden.value = valueInputHidden;
         //On créé le visu du tag
         let divNewTag = document.createElement('div');
-        divNewTag.setAttribute('class' , 'row rounded border border-primary bg-primary mr-4');
+        divNewTag.setAttribute('class' , 'row rounded bg-primary mr-4');
         listTags.appendChild(divNewTag);
         let choiceP = document.createElement('p');
         choiceP.setAttribute('class' , 'text-light text-center mb-1 px-2');
         choiceP.setAttribute('state' , 'add');
         choiceP.textContent = inputNewTags.value;
         divNewTag.appendChild(choiceP);
-        let choiceSpanDelete = document.createElement('span');
-        choiceSpanDelete.setAttribute('class' , 'border-left border-dark bg-danger text-center text-light px-2');
+        let choiceSpanDelete = document.createElement('button');
+        choiceSpanDelete.setAttribute('class' , 'rounded border border-danger bg-danger text-center text-light');
         choiceSpanDelete.setAttribute('onclick' , 'changeStateTags(event)');
         choiceSpanDelete.textContent = 'x';
         divNewTag.appendChild(choiceSpanDelete);

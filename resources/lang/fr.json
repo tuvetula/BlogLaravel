@@ -1,6 +1,8 @@
 {
     "Add a new Administrator": "Ajouter un nouvel administrateur",
     "Administrator": "Administrateur",
+    "Administrators": "Administrateurs",
+    "Back": "Retour",
     "Confirm Password": "Confirmation mot de passe",
     "Contact me": "Contactez-moi",
     "Delete": "Supprimer",
@@ -22,5 +24,6 @@
     "Save": "Sauvegarder",
     "See": "Voir",
     "Send": "Envoyer",
-    "the developer you need!": "le développeur qu'il vous faut!"
+    "the developer you need!": "le développeur qu'il vous faut!",
+    "Users": "Utilisateurs"
 }

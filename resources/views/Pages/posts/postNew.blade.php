@@ -32,21 +32,9 @@
             </div>
 
             <div class="form-group text-left">
-                <label for="tag" class="font-weight-bold">Tag</label>
-                    <div class="container row">
-                    <input list=listTagsChoices type="text" class="form-control col-md-3" id="tag" placeholder="Saisir un tag">
-                    @if(!empty($tags))
-                        <datalist id="listTagsChoices">
-                            @foreach($tags as $tag)
-                                <option value="{{ $tag->name }}"></option>
-                                @endforeach
-                        </datalist>
-                        @endif
-                        <button type="button" id="buttonAddTags" class="btn btn-primary col-md-1">Ajouter</button>
-                    </div>
+                @include('Includes.addTags')
                 <div class="container">
-                <div id="listTags" class="row p-3"></div>
-
+                    <div id="listTags" class="row p-3"></div>
                 </div>
             </div>
             <input type="hidden" name="tags" id="hiddenTags">
@@ -54,7 +42,6 @@
             <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
         </form>
     </div>
-
     @endsection
 
 @section('js')
