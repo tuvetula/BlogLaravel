@@ -19,7 +19,8 @@ Route::resource('posts', 'PostsController');
 Route::resource('comment', 'CommentsController');
 Route::get('/account/{user}' , 'AccountController@show')->name('account.show');
 Route::get('/account/{user}/edit' , 'AccountController@edit')->name('account.edit');
-Route::post('/account/{user}' , 'AccountController@update')->name('account.update');
+Route::post('/account/{user}' , 'AccountController@update')->name('account.update')->middleware('ajax');
+Route::post('/avatar/{user}' , 'AvatarController@update')->name('avatar.update')->middleware('ajax');
 Route::post('/contact', 'ContactController@store')->name('contact.store');
 Route::prefix('/backend')->name('backend.')->namespace('Admin')->group(function(){
     Route::namespace('Auth')->group(function(){

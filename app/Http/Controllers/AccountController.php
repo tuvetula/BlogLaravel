@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Models\Post;
 use App\Models\User;
-use Egulias\EmailValidator\Warning\Comment;
+use App\Utils\CustomAuth;
 use http\Env\Response;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 
@@ -23,14 +22,14 @@ class AccountController extends Controller
     public function show(User $user)
     {
         $posts = $user->userPosts->sortByDesc('created_at');
-        if($user->id == Auth::user()->id){
+        if($user->id == CustomAuth::id()){
             return view('Pages/account/accountShow' , compact('user' , 'posts'));
         }
     }
 
     /**
      * @param User $user
-     * @return Response
+     * @return Factory|View
      */
     public function edit(User $user)
     {
@@ -40,21 +39,17 @@ class AccountController extends Controller
     /**
      * @param UserRequest $request
      * @param User $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(UserRequest $request, User $user)
     {
-        if(isset($_FILES) && $_FILES['avatar']['error'] == 0){
-            if(!empty($user->avatar)){
-                Storage::move('public/'.$user->avatar , 'public/old/'.$user->avatar);
-            }
-            $path = $request->file('avatar')
-                ->store('avatars' , 'public');
-            $user->avatar = $path;
+        if($request->ajax())
+        {
+            $user->first_name = $request->first_name;
+            $user->name = $request->name;
+            $user->update();
+            return response()->json($user);
         }
-        $user->first_name = $request->first_name;
-        $user->name = $request->name;
-        $user->update();
-        return redirect()->route('account.show' , $user->id)->with('info' , 'Votre compte a bien été modifié.');
+        abort(404);
     }
 }

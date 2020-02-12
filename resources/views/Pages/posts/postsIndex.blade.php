@@ -26,7 +26,13 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-4">
-                            <p class="text-left">@if(get_class($post->postable) == 'App\Models\Admin') <span class="font-weight-bold">{{ __('Administrator') }}</span> @endif {{$post->postable->first_name }} </p>
+                                @if(get_class($post->postable) == 'App\Models\User' && !empty($post->postable->avatar))
+                                    <img class="rounded-circle" src="{{ URL::asset('storage/avatarsMiniatures50x50/'.basename($post->postable->avatar)) }}" alt="avatar">
+                                @else
+                                    <img class="rounded-circle" src="{{ URL::asset('storage/avatarsMiniatures50x50/male-profile48.png') }}" alt="avatar">
+                            @endif
+                                <p class="ml-3 text-left d-inline">@if(get_class($post->postable) == 'App\Models\Admin') <span class="font-weight-bold">{{ __('Administrator') }}</span> @endif {{$post->postable->first_name }} </p>
+
                         </div>
                         <div class="col-md-4">
                             <p class="text-center font-weight-bold">{{$post->title}}</p>
