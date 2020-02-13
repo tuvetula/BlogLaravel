@@ -368,7 +368,7 @@ module.exports.default = axios;
  * A `Cancel` is an object that is thrown when an operation is canceled.
  *
  * @class
- * @param {string=} message The message.
+ * @param {string=} message The messages.
  */
 function Cancel(message) {
   this.message = message;
@@ -686,9 +686,9 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
 var enhanceError = __webpack_require__(/*! ./enhanceError */ "./node_modules/axios/lib/core/enhanceError.js");
 
 /**
- * Create an Error with the specified message, config, error code, request and response.
+ * Create an Error with the specified messages, config, error code, request and response.
  *
- * @param {string} message The error message.
+ * @param {string} message The error messages.
  * @param {Object} config The config.
  * @param {string} [code] The error code (for example, 'ECONNABORTED').
  * @param {Object} [request] The request.
@@ -15677,7 +15677,7 @@ jQuery.extend( {
 			requestHeaders = {},
 			requestHeadersNames = {},
 
-			// Default abort message
+			// Default abort messages
 			strAbort = "canceled",
 
 			// Fake xhr
@@ -17123,7 +17123,7 @@ return jQuery;
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
 
-  /** Error message constants. */
+  /** Error messages constants. */
   var CORE_ERROR_TEXT = 'Unsupported core-js use. Try https://npms.io/search?q=ponyfill.',
       FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -27402,7 +27402,7 @@ return jQuery;
      * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
      * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
      * var source = new EventSource('/stream');
-     * jQuery(source).on('message', debounced);
+     * jQuery(source).on('messages', debounced);
      *
      * // Cancel the trailing debounced invocation.
      * jQuery(window).on('popstate', debounced.cancel);
@@ -37144,7 +37144,7 @@ process.umask = function() { return 0; };
     }
 
     function installPostMessageImplementation() {
-        // Installs an event handler on `global` for the `message` event: see
+        // Installs an event handler on `global` for the `messages` event: see
         // * https://developer.mozilla.org/en/DOM/window.postMessage
         // * http://www.whatwg.org/specs/web-apps/current-work/multipage/comms.html#crossDocumentMessages
 
@@ -37864,7 +37864,7 @@ var config = ({
   silent: false,
 
   /**
-   * Show production mode tip message on boot?
+   * Show production mode tip messages on boot?
    */
   productionTip: "development" !== 'production',
 

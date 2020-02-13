@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Presenters\DatePresenter;
 use App\Traits\MorphToManyTags;
 use App\Traits\TagsRequest;
 use Illuminate\Database\Eloquent\Model;

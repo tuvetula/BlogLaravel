@@ -22,6 +22,9 @@ Route::get('/account/{user}/edit' , 'AccountController@edit')->name('account.edi
 Route::post('/account/{user}' , 'AccountController@update')->name('account.update')->middleware('ajax');
 Route::post('/avatar/{user}' , 'AvatarController@update')->name('avatar.update')->middleware('ajax');
 Route::post('/contact', 'ContactController@store')->name('contact.store');
+Route::get('/messages' , 'MessagesController@index')->name('messages.index');
+Route::get('/messages/{user}' , 'MessagesController@show')->name('messages.show')->middleware('can:talkTo,user')->middleware('auth');
+Route::post('/messages/{user}' , 'MessagesController@store')->middleware('can:talkTo,user');
 Route::prefix('/backend')->name('backend.')->namespace('Admin')->group(function(){
     Route::namespace('Auth')->group(function(){
         //Login Routes

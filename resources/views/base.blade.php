@@ -34,11 +34,15 @@
                         <a class="nav-link @if (Request::is('posts/*') || Request::is('posts'))
                             active @endif" href={{ route('posts.index') }}>Posts</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('messages.index') }}" class="nav-link @if (Request::is('messages/*') || Request::is('messages'))
+                            active @endif">Messages</a>
+                    </li>
                 @endif
                 <li class="nav-item">
                     <a href="{{ route('contact.edit') }}"
                        class="nav-link @if (Request::is('contact/*') || Request::is('contact'))
-                           active @endif"">Contact</a>
+                           active @endif">Contact</a>
                 </li>
             </ul>
             @auth('admin')

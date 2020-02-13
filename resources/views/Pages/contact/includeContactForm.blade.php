@@ -29,10 +29,10 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control  @error('message') is-invalid @enderror" rows="6"
+                            <textarea class="form-control  @error('messages') is-invalid @enderror" rows="6"
                                       name="message" id="message"
-                                      placeholder="{{__('Message')}}">{{ old('message') }}</textarea>
-                            @error('message')
+                                      placeholder="{{__('Message')}}">{{ old('messages') }}</textarea>
+                            @error('messages')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

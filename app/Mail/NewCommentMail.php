@@ -25,7 +25,7 @@ class NewCommentMail extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the messages.
      *
      * @return $this
      */

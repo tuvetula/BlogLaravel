@@ -5,5 +5,5 @@
         <li><strong>Nom</strong> : {{ $contact['name'] }}</li>
         <li><strong>Prénom</strong> : {{$contact['first_name']}}</li>
         <li><strong>Email</strong> : {{ $contact['email'] }}</li>
-        <li><strong>Message</strong> : {{ $contact['message'] }}</li>
+        <li><strong>Message</strong> : {{ $contact['messages'] }}</li>
     </ul>

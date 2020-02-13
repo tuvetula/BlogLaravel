@@ -14,7 +14,7 @@ class SendMailUserCommentPostUpdate extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance.
+     * Create a new messages instance.
      *
      * @param $post
      */
@@ -24,7 +24,7 @@ class SendMailUserCommentPostUpdate extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the messages.
      *
      * @return $this
      */

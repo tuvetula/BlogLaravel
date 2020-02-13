@@ -58,4 +58,9 @@ class User extends Authenticatable
            'user_id',
            'post_id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Messages' , 'from_id');
+    }
 }

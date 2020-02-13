@@ -22,7 +22,7 @@ class Contact extends Mailable
     }
 
     /**
-     * Build the message.
+     * Build the messages.
      *
      * @return $this
      */
