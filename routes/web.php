@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', 'HomeController@index')->name('home1');
 Route::get('/contact' , 'ContactController@edit')->name('contact.edit');
 Route::resource('posts', 'PostsController');
+Route::get('userPosts/{user}' , 'PostsController@userPostsIndex')->name('userPosts.index');
 Route::resource('comment', 'CommentsController');
 Route::get('/tokenUpdate/{user}' , 'ApiTokenController@update')->name('apiToken.update');
 Route::get('/account/{user}' , 'AccountController@show')->name('account.show');

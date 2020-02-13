@@ -29,8 +29,19 @@ class PostsController extends Controller
     {
         $session_id = CustomAuth::id();
         $session_model = CustomAuth::getClass();
-        $posts = Post::orderBy('id','desc')->paginate(5);
-        return view('Pages/posts/postsIndex', compact(['posts','session_id','session_model']));
+        $posts = Post::orderBy('id', 'desc')->paginate(5);
+        return view('Pages/posts/postsIndex', compact(['posts', 'session_id', 'session_model']));
+    }
+
+    /**
+     * @param User $user
+     * @param int $page
+     * @return Factory|RedirectResponse|View
+     */
+    public function userPostsIndex(User $user)
+    {
+        $posts = $user->userPosts()->orderBy('created_at')->paginate(2);
+        return view('Pages/posts/postsUserIndex', compact('posts'));
     }
 
     /**
@@ -42,7 +53,7 @@ class PostsController extends Controller
     {
         $author = CustomAuth::user()->first_name;
         $tagsChoice = Tag::orderBy('name')->get();
-        return view('Pages/posts/postNew', compact('author' , 'tagsChoice'));
+        return view('Pages/posts/postNew', compact('author', 'tagsChoice'));
     }
 
     /**
@@ -66,7 +77,7 @@ class PostsController extends Controller
         //Gestion Tags
         $post->tagsAttach($tagRequest);
         return redirect()->route('posts.index')
-            ->with('info','Votre post a été ajouté avec succès !');
+            ->with('info', 'Votre post a été ajouté avec succès !');
     }
 
     /**
@@ -80,7 +91,7 @@ class PostsController extends Controller
         $session_id = CustomAuth::id();
         $session_model = CustomAuth::getClass();
         $tagsChoice = Tag::orderBy('name')->get();
-        return view('Pages/posts/postShow', compact('post', 'session_id' , 'session_model' , 'tagsChoice'));
+        return view('Pages/posts/postShow', compact('post', 'session_id', 'session_model', 'tagsChoice'));
     }
 
     /**
@@ -92,7 +103,7 @@ class PostsController extends Controller
     public function edit(Post $post)
     {
         $tagsChoice = Tag::orderBy('name')->get();
-        return view('Pages/posts/postEdit', compact('post' , 'tagsChoice'));
+        return view('Pages/posts/postEdit', compact('post', 'tagsChoice'));
     }
 
     /**
@@ -112,13 +123,13 @@ class PostsController extends Controller
         $post->tagsAttach($tagRequest);
         //On efface les relations tags à supprimer
         $post->tagsDetach($tagRequest);
-        return redirect()->route('posts.index')->with('info','Le post a bien été modifié dans la base de données');
+        return redirect()->route('posts.index')->with('info', 'Le post a bien été modifié dans la base de données');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return RedirectResponse|Redirector
      */
     public function destroy($id)
@@ -126,9 +137,8 @@ class PostsController extends Controller
         //Soft Delete
         $post = Post::find($id);
         //On supprime tous les commentaires liés au post
-        foreach ($post->comments as $comment)
-        {
-            foreach ($comment->tags as $tag){
+        foreach ($post->comments as $comment) {
+            foreach ($comment->tags as $tag) {
                 $comment->tagsDetachByTagId($tag->id);
             }
             $comment->delete();
@@ -136,12 +146,12 @@ class PostsController extends Controller
         //On supprime le post
         $post->delete();
         //On supprimer les realations avec les tags du post
-        foreach ($post->tags as $tag){
+        foreach ($post->tags as $tag) {
             $post->tagsDetachByTagId($tag->id);
         }
         //On supprimer les realations avec les tags du commentaire lié au post
 
         //Redirection
-        return redirect(route('posts.index'))->with('info','Le post a bien été supprimé dans la base de données');
+        return redirect(route('posts.index'))->with('info', 'Le post a bien été supprimé dans la base de données');
     }
 }
