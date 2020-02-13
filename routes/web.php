@@ -17,6 +17,7 @@ Route::get('/', 'HomeController@index')->name('home1');
 Route::get('/contact' , 'ContactController@edit')->name('contact.edit');
 Route::resource('posts', 'PostsController');
 Route::resource('comment', 'CommentsController');
+Route::get('/tokenUpdate/{user}' , 'ApiTokenController@update')->name('apiToken.update');
 Route::get('/account/{user}' , 'AccountController@show')->name('account.show');
 Route::get('/account/{user}/edit' , 'AccountController@edit')->name('account.edit');
 Route::post('/account/{user}' , 'AccountController@update')->name('account.update')->middleware('ajax');

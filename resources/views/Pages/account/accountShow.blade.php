@@ -20,7 +20,7 @@
                 <div class="card-img col-md-3 text-center">
                     @if(!empty($user->avatar))
                         <a id="ModifyAvatar" href="#" title="Modifer">
-                            <img src="{{ url('storage/avatarsMiniatures100x100/'.basename($user->avatar))}}" alt="avatar"
+                            <img src="{{ url('storage/avatarsMiniatures100x100/'.$user->avatar) }}" alt="avatar"
                                 id="avatar" class="rounded-circle">
                         </a>
                     @else
@@ -29,7 +29,7 @@
                         </a>
                     @endif
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-6">
                     <div class="container row">
                         <label for="nameInfo" class="font-weight-bold">{{ __('Name') }}:</label>
                         <p id="nameInfo" class="ml-1">{{ $user->name }}</p>
@@ -42,6 +42,12 @@
                         <label for="emailInfo" class="font-weight-bold">{{ __('E-Mail Address') }}:</label>
                         <p class="ml-1" id="emailInfo">{{ $user->email }}</p>
                     </div>
+                </div>
+                <div class="col-md-3">
+                        <a href="{{ route('apiToken.update' , $user->id) }}" class="btn btn-warning" onclick="return confirm('Êtes-vous sûr de vouloir réinitialiser votre token api?')">Initialiser mon api token<a/>
+                            @if(session()->has('token'))
+                                <div class="alert alert-success text-center font-weight-bold mt-3">{{session('token')}}</div>
+                    @endif
                 </div>
             </div>
             <div class="card-footer text-center">

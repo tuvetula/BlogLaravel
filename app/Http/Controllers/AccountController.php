@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Utils\CustomAuth;
 use http\Env\Response;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,7 @@ class AccountController extends Controller
     /**
      * @param UserRequest $request
      * @param User $user
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function update(UserRequest $request, User $user)
     {

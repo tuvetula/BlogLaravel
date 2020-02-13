@@ -15,6 +15,14 @@ class Post extends Model
     use TagsRequest;
 
     protected $with=['postable'];
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'deleted_at' , 'updated_at' , 'created_at','id'
+    ];
 
     public function comments()
     {

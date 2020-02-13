@@ -24,12 +24,11 @@ class AvatarController extends Controller
         if ($files = $request->file('avatar')) {
             $path = $request->avatar->store('avatars' , 'public');
             ResizeImage::dispatch($path);
-            $user->avatar = $path;
+            $user->avatar = basename($path);
             $user->update();
             return Response()->json($path);
         }
 
         return Response()->json();
-
     }
 }

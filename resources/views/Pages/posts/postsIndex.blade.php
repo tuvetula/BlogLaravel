@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-md-4">
                                 @if(get_class($post->postable) == 'App\Models\User' && !empty($post->postable->avatar))
-                                    <img class="rounded-circle" src="{{ URL::asset('storage/avatarsMiniatures50x50/'.basename($post->postable->avatar)) }}" alt="avatar">
+                                    <img class="rounded-circle" src="{{ URL::asset('storage/avatarsMiniatures50x50/'.$post->postable->avatar) }}" alt="avatar">
                                 @else
                                     <img class="rounded-circle" src="{{ URL::asset('storage/avatarsMiniatures50x50/male-profile48.png') }}" alt="avatar">
                             @endif
