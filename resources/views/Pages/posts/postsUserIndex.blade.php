@@ -21,10 +21,10 @@
                             <div class="container bg-white py-3 text-center rounded font-weight-bold border">
                                 <p class="m-0"> {{ $post->post }}</p>
                             </div>
-                            <div class="container py-3" style="height:200px">
+                            <div class="container py-3" style="height:180px">
                                 <div class="overflow-auto mh-100">
                                     @foreach($post->comments as $comment)
-                                        <span class="font-italic"> {{ $comment->commentable->first_name }}: </span>
+                                        <span class="font-italic font-weight-light"> {{ $comment->commentable->name }} {{ $comment->commentable->first_name }}: </span>
                                         <p class=""> {{ $comment->comment }}</p>
                                     @endforeach
                                 </div>
