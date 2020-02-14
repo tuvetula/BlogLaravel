@@ -11,32 +11,33 @@
             @if (!empty($posts))
                 @foreach($posts as $post)
                     <div class="card-body">
-                        <div class="jumbotron my-1 py-4">
-                            <div class="container row justify-content-between p-0">
+                        <div class="container bg-light border rounded">
+                            <div class="row justify-content-between px-3 py-3">
                                 <p><span class="font-weight-bold ">Titre: </span> {{ $post->title }}</p>
-                                <p>
-                                    <span
+                                <p><span
                                         class="font-weight-bold ">Date de dernière modification: </span> {{ date_format($post->updated_at , 'd-m-Y à H:i:s') }}
                                 </p>
                             </div>
-                            <div class="container row justify-content-center py-3 mb-3 bg-light">
+                            <div class="container bg-white py-3 text-center rounded font-weight-bold border">
                                 <p class="m-0"> {{ $post->post }}</p>
                             </div>
-                            @foreach($post->comments as $comment)
-                                <div class="container row p-0">
-                                    <span class="font-weight-bold">Commentaire de {{ $comment->commentable->first_name }}: </span>
-                                    <p class="mx-3"> {{ $comment->comment }}</p>
+                            <div class="container py-3" style="height:200px">
+                                <div class="overflow-auto mh-100">
+                                    @foreach($post->comments as $comment)
+                                        <span class="font-italic"> {{ $comment->commentable->first_name }}: </span>
+                                        <p class=""> {{ $comment->comment }}</p>
+                                    @endforeach
                                 </div>
-                            @endforeach
+                            </div>
                         </div>
                     </div>
                 @endforeach
-                    <div class="container pagination justify-content-center">
-                        {{$posts->links()}}
-                    </div>
             @else
                 <p class="text-center my-3">Aucun post à afficher</p>
             @endif
+            <div class="card-footer pagination justify-content-center">
+                {{$posts->links()}}
+            </div>
         </div>
     </div>
 @endsection

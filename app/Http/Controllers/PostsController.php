@@ -35,12 +35,11 @@ class PostsController extends Controller
 
     /**
      * @param User $user
-     * @param int $page
-     * @return Factory|RedirectResponse|View
+     * @return Factory|View
      */
     public function userPostsIndex(User $user)
     {
-        $posts = $user->userPosts()->orderBy('created_at')->paginate(2);
+        $posts = $user->userPosts()->orderBy('created_at')->paginate(2 , ['*'] , 'postsPage');
         return view('Pages/posts/postsUserIndex', compact('posts'));
     }
 
